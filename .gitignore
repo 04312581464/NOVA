@@ -1,0 +1,100 @@
+# Nova 5.0 - Git Ignore File
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# LiveKit and dependencies
+*.dist-info/
+livekit/
+livekit_*/
+
+# Cache and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+*.pid
+
+# Memory and data files (keep structure but ignore content)
+memory.json
+voice.json
+*.db
+*.sqlite
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Node modules (if any)
+node_modules/
+
+# Build artifacts
+*.pyc
+*.pyo
+*.pyd
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+
+# Documentation build
+docs/_build/
+
+# Audio recordings (keep structure but ignore content)
+Recordings/*.wav
+*.mp3
+*.m4a
+
+# Package files
+*.zip
+*.tar.gz
+*.rar
+
+# Backup files
+*.bak
+*.backup
