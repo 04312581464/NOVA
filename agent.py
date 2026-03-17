@@ -96,6 +96,8 @@ from Tools import nova_transparency_log as _nova_log_tool
 from Tools.memory_graph_tools import graph_upsert_node, graph_link, graph_search, graph_neighbors
 from Tools import memory_graph_tools as _mem_graph_tools
 from focus_mode import focus_manager
+from Tools.dream_module_tools import dream_generate_visual
+from Tools import dream_module_tools as _dream_tools
 
 # =========================
 # MAIN AGENT
@@ -213,6 +215,7 @@ class UltimateAdvancedNova(Agent):
             graph_link,
             graph_search,
             graph_neighbors,
+            dream_generate_visual,
         ]
 
         super().__init__(
@@ -257,6 +260,7 @@ class UltimateAdvancedNova(Agent):
         self._controller.attach_session(session)
         _nova_log_tool.set_controller(self._controller)
         _mem_graph_tools.set_memory_graph(self._controller.memory_graph)
+        _dream_tools.set_controller(self._controller)
         asyncio.create_task(self._controller.start_background())
         
     def add_reminder(self, text: str, time_: datetime):

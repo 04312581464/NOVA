@@ -6,7 +6,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from agents import CodingAgent, FileAgent, SecurityAgent, StudyAgent, SystemAgent
+from behavior_engine import BehaviorEngine
 from focus_mode import focus_manager
+from dream_module import DreamModule, DreamRequest
 from memory_graph import MemoryGraph
 from nova_activity_log import ActivityLogger
 from stealth_automation import StealthAutomation
@@ -33,6 +35,8 @@ class NovaAgentsController:
         self.base_dir = base_dir
         self.log = ActivityLogger(base_dir / "json" / "nova_activity_log.jsonl")
         self.memory_graph = MemoryGraph(base_dir / "json" / "memory_graph.json")
+        self.behavior = BehaviorEngine(base_dir / "json" / "user_profile.json")
+        self.dream = DreamModule()
         self.config: Dict[str, Any] = {
             "system_check_interval_s": 20,
             "ram_spike_pct": 90,
@@ -103,6 +107,8 @@ class NovaAgentsController:
             intents.append("focus_mode")
         if any(k in t for k in ["memory graph", "relationships", "link this", "connect this"]):
             intents.append("memory_graph")
+        if any(k in t for k in ["dream", "dream module", "future sight", "futuresight", "outcome simulator", "concept vision", "worldforge", "visual experience", "visualize"]):
+            intents.append("dream")
         if any(k in t for k in ["organize", "downloads", "cleanup", "clear junk", "rename"]):
             intents.append("file_ops")
         if any(k in t for k in ["usb", "virus", "scan", "suspicious", "security", "malware"]):
@@ -115,6 +121,11 @@ class NovaAgentsController:
             intents.append("coding")
         return intents
 
+    def observe_user_message(self, text: str) -> None:
+        intents = self.detect_intents(text)
+        self.behavior.observe(text, intents=intents)
+        self.log.log("behavior", "Observed user message", {"intents": intents, "summary": self.behavior.summary()})
+
     def select_agents(self, text: str) -> List[Any]:
         scored = [(a.match(text, None), a) for a in self._agents]
         scored.sort(key=lambda x: x[0], reverse=True)
@@ -123,11 +134,14 @@ class NovaAgentsController:
 
     def merged_directives(self, text: str) -> str:
         intents = self.detect_intents(text)
+        # Self-improving behavior engine update
+        self.behavior.observe(text, intents=intents)
         selected = self.select_agents(text)
         results = [a.run(text, None) for a in selected]
 
         lines: List[str] = []
         lines.append("Multi-Agent Controller:")
+        lines.append(f"- Behavior profile: {self.behavior.summary()}")
         if intents:
             lines.append(f"- Detected intents: {', '.join(intents)}")
         if selected:
@@ -147,5 +161,23 @@ class NovaAgentsController:
         if "show_log" in intents:
             lines.append("\nController action: respond with today's transparency log.")
 
+        if "dream" in intents:
+            mode = self.dream.classify(text)
+            ctx = self._dream_context_summary()
+            prompt = self.dream.build_prompt(
+                DreamRequest(user_input=text, mode=mode, context_summary=ctx),
+                user_profile=self.behavior.profile.__dict__,
+            )
+            lines.append("\nDream Module:")
+            lines.append(f"- Classified mode: {mode}")
+            lines.append("- If user asks for a visual, call generate_ai_image with the generated prompt.")
+            lines.append(f"- Generated prompt: {prompt}")
+
         return "\n".join(lines)
+
+    def _dream_context_summary(self) -> str:
+        # Pull small hints from memory graph + behavior topics
+        topics = sorted(self.behavior.profile.topic_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+        tstr = ", ".join(f"{k}" for k, _ in topics) if topics else ""
+        return f"top_topics={tstr}"
 

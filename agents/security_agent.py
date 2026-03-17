@@ -64,6 +64,7 @@ class SecurityAgent(BaseNovaAgent):
                     known_files.add(str(p))
 
         known_drives = self._current_drive_set()
+        known_pids: Set[int] = set()
 
         while True:
             await asyncio.sleep(interval_s)
@@ -114,6 +115,35 @@ class SecurityAgent(BaseNovaAgent):
                         )
                 for fp in new_suspicious:
                     known_files.add(fp)
+            except Exception:
+                pass
+
+            # Unusual activity: new processes launched from Downloads/Desktop
+            try:
+                alerts = []
+                for proc in psutil.process_iter(["pid", "name", "exe"]):
+                    pid = int(proc.info.get("pid") or 0)
+                    if pid <= 0 or pid in known_pids:
+                        continue
+                    exe = proc.info.get("exe") or ""
+                    if not exe:
+                        continue
+                    low = exe.lower()
+                    if ("\\downloads\\" in low) or ("\\desktop\\" in low):
+                        alerts.append({"pid": pid, "name": proc.info.get("name"), "exe": exe})
+                        known_pids.add(pid)
+                if alerts and session:
+                    for a in alerts[:3]:
+                        if log:
+                            log.log("security", "Unusual process location", a)
+                        await session.generate_reply(
+                            instructions=(
+                                "Security Agent: unusual activity detected (program running from Downloads/Desktop):\n"
+                                f"- {a.get('name')} (pid {a.get('pid')})\n"
+                                f"- path: {a.get('exe')}\n\n"
+                                "If you didn't start this, I recommend running a quick scan."
+                            )
+                        )
             except Exception:
                 pass
 
