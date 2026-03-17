@@ -1,26 +1,32 @@
-# Nova 5.0 VADRYK Edition 🚀
+# Nova 5.0 A.S.T.R.A.E.L Edition 🚀
 
 An advanced AI-powered voice assistant with comprehensive system control, automation, and research capabilities.
 
 ## 🌟 Features
 
-### V - Veda (Knowledge & Intelligence)
-- 🌐 **Web Search & Research**: Intelligent information retrieval without browser opening
-- 📊 **Financial Data**: Real-time gold rates, stock prices, market data
-- 🔍 **Smart Search**: Wikipedia integration, news aggregation
-- 🧠 **Knowledge Base**: Quick fact checks and comprehensive research
+### A - Autonomous (Self-Governing Intelligence)
+- 🧠 **Self-Learning**: Adaptive behavior based on user interactions
+- 🎯 **Autonomous Decision Making**: Strategic thinking and planning
+- � **Evolutionary Logic**: Continuous improvement and adaptation
+- 🔮 **Predictive Assistance**: Anticipates user needs
 
-### A - Artha (Logic & System Flow)
-- ⚡ **System Control**: Shutdown, restart, lock computer
-- 🪟 **Window Management**: Organize and control active windows
-- 🚀 **Application Launch**: Smart app launching and management
-- 🔄 **Multi-tasking**: Execute multiple tasks simultaneously
+### S - Strategic Thinking
+- 🎯 **Goal-Oriented Actions**: Purposeful task execution
+- 📋 **Priority Management**: Intelligent task scheduling
+- 🧭 **Resource Optimization**: Efficient system utilization
+- 🎪 **Multi-Step Planning**: Complex task breakdown
 
-### D - Dhwani (Voice & Sound Control)
-- 🎙️ **Voice Recording**: High-quality audio recording and playback
-- 🎵 **Media Control**: Spotify integration, YouTube playback
-- 🔊 **Volume Control**: System audio management
-- 📢 **Voice Commands**: Complete voice-driven interface
+### T - Thinking & Analysis
+- 🔍 **Deep Analysis**: Comprehensive information processing
+- 🧮 **Logical Reasoning**: Step-by-step problem solving
+- 📊 **Pattern Recognition**: Learning from user behavior
+- � **Context Awareness**: Situation-based responses
+
+### R - Reactive Adaptive Evolutionary Logic
+- ⚡ **Real-Time Adaptation**: Dynamic response adjustment
+- � **Evolutionary Learning**: Continuous capability enhancement
+- 🎛️ **Adaptive Interface**: Personalized interaction style
+- 🌱 **Growth System**: Expanding knowledge base
 
 ### R - Rachna (Creation & Design)
 - 🎨 **AI Image Generation**: Create stunning visuals
@@ -44,14 +50,13 @@ An advanced AI-powered voice assistant with comprehensive system control, automa
 
 ### Prerequisites
 - Python 3.8+
-- LiveKit account and API keys
 - PyAudio for voice recording
 
 ### Setup
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Nova-5.0.git
-   cd Nova-5.0
+   git clone https://github.com/04312581464Nova.git
+   cd Nova
    ```
 
 2. **Install dependencies**
@@ -60,12 +65,7 @@ An advanced AI-powered voice assistant with comprehensive system control, automa
    pip install pyaudio  # For voice recording
    ```
 
-3. **Environment Setup**
-   - Copy `.env.example` to `.env`
-   - Add your LiveKit API credentials
-   - Configure user preferences
-
-4. **Run Nova**
+3. **Run Nova**
    ```bash
    python agent.py console
    ```
@@ -73,7 +73,7 @@ An advanced AI-powered voice assistant with comprehensive system control, automa
 ## 📁 Project Structure
 
 ```
-Nova-5.0/
+Nova-ASTRAEL/
 ├── 📁 Tools/                    # All AI tools and modules
 │   ├── 🎙️ voice_recorder.py     # Voice recording functionality
 │   ├── 🔍 search_and_tell.py     # Research without browser
@@ -109,17 +109,6 @@ Nova-5.0/
 - **WhatsApp**: `send_whatsapp_message(contact, message)`
 - **Email**: `send_email(to, subject, message)`
 
-## 🔧 Configuration
-
-### Environment Variables
-```env
-LIVEKIT_API_KEY=your_api_key
-LIVEKIT_API_SECRET=your_secret
-USER_NAME=Sir
-LAN=Hindi
-NOVA_VARIANT=Elite
-GOOGLE_API_KEY=your_google_key  # Optional for enhanced search
-```
 
 ### Customization
 - Modify `prompts.py` to change AI behavior
@@ -182,7 +171,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Creator
 
 **Lalit Manjunatha**  
-Nova 5.0 VADRYK Edition - Advanced AI Assistant
+Nova A.S.T.R.A.E.L Edition - Advanced AI Assistant
 
 ## 🙏 Acknowledgments
 
@@ -192,4 +181,3 @@ Nova 5.0 VADRYK Edition - Advanced AI Assistant
 
 ---
 
-**Nova 5.0 VADRYK Edition** - *Intelligent Assistance, Redefined* 🚀
