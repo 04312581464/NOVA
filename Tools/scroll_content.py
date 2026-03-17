@@ -6,6 +6,7 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 from livekit.agents import function_tool  # ✅ Correct import
+from focus_mode import focus_manager
 
 class ScrollDirection(Enum):
     UP = "up"
@@ -117,6 +118,9 @@ class ScrollController:
             raise ScrollControllerError("Scroll amount must be positive")
         
         try:
+            # Focus mode tracking (doomscroll detection)
+            focus_manager.record_scroll()
+
             # Get screen dimensions and move to center
             screen = await self._get_screen_dimensions()
             await self._move_to_center(screen)

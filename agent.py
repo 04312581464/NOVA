@@ -87,6 +87,16 @@ from Tools.lockdown_tools import lockdown_mode_on, lockdown_mode_off, lockdown_s
 from Tools.voice_recorder import start_voice_recording, stop_voice_recording, get_recording_status, list_recordings, delete_recording, play_recording
 
 # =========================
+# MULTI-AGENT + MEMORY + FOCUS
+# =========================
+from pathlib import Path as _Path
+from nova_agents import NovaAgentsController
+from Tools.nova_transparency_log import show_what_you_did_today
+from Tools import nova_transparency_log as _nova_log_tool
+from Tools.memory_graph_tools import graph_upsert_node, graph_link, graph_search, graph_neighbors
+from Tools import memory_graph_tools as _mem_graph_tools
+
+# =========================
 # MAIN AGENT
 # =========================
 class UltimateAdvancedNova(Agent):
@@ -95,6 +105,7 @@ class UltimateAdvancedNova(Agent):
         self._reminder_task: Optional[asyncio.Task] = None
         self._session: Optional[AgentSession] = None
         self._reminder_counter = 0
+        self._controller = NovaAgentsController(base_dir=_Path(__file__).resolve().parent)
 
         tools = [
             search_web,
@@ -195,6 +206,12 @@ class UltimateAdvancedNova(Agent):
             list_recordings,
             delete_recording,
             play_recording,
+            # Transparency + Memory Graph tools
+            show_what_you_did_today,
+            graph_upsert_node,
+            graph_link,
+            graph_search,
+            graph_neighbors,
         ]
 
         super().__init__(
@@ -234,6 +251,12 @@ class UltimateAdvancedNova(Agent):
         from Tools.smart_reminder import smart_reminder
         smart_reminder.set_session(session)
         print("🔔 Session linked to smart_reminder system")
+
+        # Multi-agent runtime attach + auto-start passive/stealth
+        self._controller.attach_session(session)
+        _nova_log_tool.set_controller(self._controller)
+        _mem_graph_tools.set_memory_graph(self._controller.memory_graph)
+        asyncio.create_task(self._controller.start_background())
         
     def add_reminder(self, text: str, time_: datetime):
         rid = f"rem_{self._reminder_counter}"
@@ -271,6 +294,22 @@ class UltimateAdvancedNova(Agent):
                 instructions=f"Reminder: {text}"
             )
             print(f"🔔 Reminder sent → {text}")
+
+    async def on_user_turn_completed(self, turn_ctx, new_message):
+        """
+        LiveKit hook: user finished speaking; we can inject controller directives
+        before the LLM generates the reply.
+        """
+        try:
+            text = new_message.text_content or ""
+            if not text.strip():
+                return
+
+            directives = self._controller.merged_directives(text)
+            # Inject as developer message so it guides the LLM without polluting user text.
+            turn_ctx.add_message(role="developer", content=directives)
+        except Exception:
+            return
 
 # =========================
 # ENTRYPOINT
