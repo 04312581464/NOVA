@@ -46,10 +46,11 @@ ENV/
 ehthumbs.db
 Thumbs.db
 
-# LiveKit and dependencies
+# LiveKit and dependencies (keep core files, ignore only cache)
+livekit/*/__pycache__/
+livekit/*/*.pyc
+livekit/*/*.pyo
 *.dist-info/
-livekit/
-livekit_*/
 
 # Cache and temporary files
 *.log
