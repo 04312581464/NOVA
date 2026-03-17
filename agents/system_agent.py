@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import time
 import psutil
 from typing import Any
 
@@ -57,10 +58,7 @@ class SystemAgent(BaseNovaAgent):
                 batt = psutil.sensors_battery()
                 if not batt or batt.percent is None:
                     continue
-                now = psutil.time.time() if hasattr(psutil, "time") else None
-                # Fallback: use asyncio loop time
-                if now is None:
-                    now = asyncio.get_running_loop().time()
+                now = time.time()
 
                 if last_batt is not None and last_batt_ts is not None and not batt.power_plugged:
                     dt_min = max(0.001, (now - last_batt_ts) / 60.0)
