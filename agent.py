@@ -95,6 +95,7 @@ from Tools.nova_transparency_log import show_what_you_did_today
 from Tools import nova_transparency_log as _nova_log_tool
 from Tools.memory_graph_tools import graph_upsert_node, graph_link, graph_search, graph_neighbors
 from Tools import memory_graph_tools as _mem_graph_tools
+from focus_mode import focus_manager
 
 # =========================
 # MAIN AGENT
@@ -304,6 +305,28 @@ class UltimateAdvancedNova(Agent):
             text = new_message.text_content or ""
             if not text.strip():
                 return
+
+            # Focus mode interrupt responses
+            upper = text.strip().upper()
+            if upper == "STOP":
+                try:
+                    await lockdown_mode_on()
+                except Exception:
+                    pass
+                focus_manager.reset_scroll_session()
+                turn_ctx.add_message(
+                    role="developer",
+                    content="Focus mode: user chose STOP. Confirm lockdown/distraction blocking is enabled and offer a short break plan.",
+                )
+                return
+
+            if upper == "CONTINUE":
+                focus_manager.reset_scroll_session()
+                focus_manager.record_scroll()
+                turn_ctx.add_message(
+                    role="developer",
+                    content="Focus mode: user chose CONTINUE. Acknowledge and continue without blocking; re-check after another scroll session.",
+                )
 
             directives = self._controller.merged_directives(text)
             # Inject as developer message so it guides the LLM without polluting user text.
