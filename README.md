@@ -1,11 +1,10 @@
-# Nova 5.0 A.S.T.R.A.E.L Edition 🚀
+# Nova A.S.T.R.A.E.L Edition 🚀
 
 An advanced AI-powered voice assistant with comprehensive system control, automation, and research capabilities.
 
 ## Features
 
 ### A - Autonomous (Self-Governing Intelligence)
-<<<<<<< HEAD
 - **Self-Learning**: Adaptive behavior based on user interactions
 - **Autonomous Decision Making**: Strategic thinking and planning
 - **Evolutionary Logic**: Continuous improvement and adaptation
@@ -22,30 +21,6 @@ An advanced AI-powered voice assistant with comprehensive system control, automa
 - **Logical Reasoning**: Step-by-step problem solving
 - **Pattern Recognition**: Learning from user behavior
 - **Context Awareness**: Situation-based responses
-=======
-- 🧠 **Self-Learning**: Adaptive behavior based on user interactions
-- 🎯 **Autonomous Decision Making**: Strategic thinking and planning
-- � **Evolutionary Logic**: Continuous improvement and adaptation
-- 🔮 **Predictive Assistance**: Anticipates user needs
-
-### S - Strategic Thinking
-- 🎯 **Goal-Oriented Actions**: Purposeful task execution
-- 📋 **Priority Management**: Intelligent task scheduling
-- 🧭 **Resource Optimization**: Efficient system utilization
-- 🎪 **Multi-Step Planning**: Complex task breakdown
-
-### T - Thinking & Analysis
-- 🔍 **Deep Analysis**: Comprehensive information processing
-- 🧮 **Logical Reasoning**: Step-by-step problem solving
-- 📊 **Pattern Recognition**: Learning from user behavior
-- � **Context Awareness**: Situation-based responses
-
-### R - Reactive Adaptive Evolutionary Logic
-- ⚡ **Real-Time Adaptation**: Dynamic response adjustment
-- � **Evolutionary Learning**: Continuous capability enhancement
-- 🎛️ **Adaptive Interface**: Personalized interaction style
-- 🌱 **Growth System**: Expanding knowledge base
->>>>>>> 5e06da456274b6aa292972a62ea062baba7392b7
 
 ### R - Reactive Adaptive Evolutionary Logic
 - **Real-Time Adaptation**: Dynamic response adjustment
@@ -82,10 +57,10 @@ An advanced AI-powered voice assistant with comprehensive system control, automa
 - PyAudio for voice recording
 
 ### Setup
-1. **Clone the repository**
+1. **Clone repository**
    ```bash
-   git clone https://github.com/04312581464Nova.git
-   cd Nova
+   git clone https://github.com/04312581464/NOVA.git
+   cd NOVA
    ```
 
 2. **Install dependencies**
@@ -113,6 +88,7 @@ Nova-ASTRAEL/
 ├── 🤖 agent.py                 # Main AI agent
 ├── 📋 prompts.py               # AI behavior and instructions
 ├── 🔧 tools.py                 # Tool integration
+├── 🧠 behavior_engine.py       # AI learning system
 ├── 📄 LIVEKIT_INTEGRATION_GUIDE.md
 └── 📁 Preciosa-Monitor-satellite/  # Satellite monitoring system
 ```
@@ -209,4 +185,6 @@ Nova A.S.T.R.A.E.L Edition - Advanced AI Assistant
 - All contributors and testers
 
 ---
+
+**Nova A.S.T.R.A.E.L Edition** - *Autonomous Strategic Thinking & Reactive Adaptive Evolutionary Logic* 🚀
 
