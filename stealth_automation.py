@@ -48,6 +48,7 @@ class StealthAutomation:
         self.log = log
         self.enabled = enabled
         self._task: Optional[asyncio.Task] = None
+        self._last_app_update_day: Optional[str] = None
 
     async def start(self) -> None:
         if self._task and not self._task.done():
@@ -79,6 +80,46 @@ class StealthAutomation:
         except Exception as e:
             if self.log:
                 self.log.log("stealth", "Temp cleanup failed", {"error": str(e)})
+
+        # Best-effort app updates (Windows winget). Runs at most once per day.
+        try:
+            day = datetime.now().strftime("%Y-%m-%d")
+            if self._last_app_update_day != day:
+                self._last_app_update_day = day
+                out = await self._winget_upgrade_all()
+                if self.log:
+                    self.log.log("stealth", "Attempted app updates", {"result": out[:4000]})
+        except Exception as e:
+            if self.log:
+                self.log.log("stealth", "App update attempt failed", {"error": str(e)})
+
+    async def _winget_upgrade_all(self) -> str:
+        # Avoid hard failure if winget isn't installed.
+        import subprocess
+
+        cmd = [
+            "winget",
+            "upgrade",
+            "--all",
+            "--silent",
+            "--accept-package-agreements",
+            "--accept-source-agreements",
+        ]
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                *cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+        except FileNotFoundError:
+            return "winget not found; skipped."
+
+        stdout, stderr = await proc.communicate()
+        out = (stdout or b"").decode(errors="ignore").strip()
+        err = (stderr or b"").decode(errors="ignore").strip()
+        if err and not out:
+            return f"winget stderr: {err}"
+        if err:
+            return f"{out}\n\n(stderr)\n{err}"
+        return out or "winget finished (no output)."
 
     def _clear_temp(self, *, days: int = 3) -> int:
         cutoff = datetime.now() - timedelta(days=days)
