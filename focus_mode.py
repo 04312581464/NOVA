@@ -40,6 +40,11 @@ class FocusModeManager:
             self._prompted_at_scroll_start = None
         self._last_scroll_ts = now
 
+    def reset_scroll_session(self) -> None:
+        self._scroll_start_ts = None
+        self._last_scroll_ts = None
+        self._prompted_at_scroll_start = None
+
     def _current_scroll_duration_s(self) -> int:
         if self._scroll_start_ts is None:
             return 0
