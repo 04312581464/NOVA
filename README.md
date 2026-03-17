@@ -67,7 +67,7 @@ An advanced AI-powered voice assistant with comprehensive system control, automa
 
 4. **Run Nova**
    ```bash
-   python agent.py
+   python agent.py console
    ```
 
 ## 📁 Project Structure
