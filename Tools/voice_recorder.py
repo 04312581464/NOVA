@@ -25,7 +25,7 @@ class VoiceRecorder:
         self.frames = []
         self.sample_rate = 44100
         self.channels = 2
-        self.format = wave.WAV_FORMAT_PCM_16
+        self.format = wave.WAVE_FORMAT_PCM
         self.chunk = 1024
         
     def _get_audio_device(self):
